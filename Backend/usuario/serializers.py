@@ -11,3 +11,4 @@ class UsuarioSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         worker = m.Usuario.objects.create_user(**validated_data)
         return worker
+    

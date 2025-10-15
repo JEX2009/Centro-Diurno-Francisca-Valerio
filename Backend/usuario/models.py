@@ -5,3 +5,6 @@ from django.contrib.auth.models import AbstractUser
 
 class Usuario(AbstractUser):
     codigo= models.CharField(max_length=10, unique=True)
+    def __str__(self):
+        Usuario = self.first_name + ' ' + self.last_name
+        return Usuario
