@@ -32,6 +32,9 @@ class Paciente(models.Model):
     observaciones = models.TextField(blank=True, null=True)
     direccion = models.CharField(max_length=255, blank=True, null=True)
     esta_activo = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return self.nombre_completo
 
 class Epicrisis(models.Model):
     """
