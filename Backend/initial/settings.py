@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     #Apps
     'usuario',
     'initial',
-    
+    'paciente',
 ]
 
 

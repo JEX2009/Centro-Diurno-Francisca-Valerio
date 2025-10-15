@@ -4,3 +4,4 @@ django-cors-headers # Para manejar CORS
 djangorestframework # Para crear APIs RESTful
 python-dotenv # Para manejar variables de entorno
 djangorestframework-simplejwt # Para autenticación JWT
+Pillow # Para manejar imágenes
