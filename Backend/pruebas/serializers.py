@@ -106,3 +106,4 @@ class ResultadoPruebaWriteSerializer(serializers.ModelSerializer):
         for respuesta_data in respuestas_data:
             m.Respuesta.objects.create(resultado_prueba=resultado_prueba, **respuesta_data)
         return resultado_prueba
+    
