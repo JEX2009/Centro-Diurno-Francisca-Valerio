@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'pruebas',
     'caso',
     'cita',
+    'reporte',
 ]
 
 
