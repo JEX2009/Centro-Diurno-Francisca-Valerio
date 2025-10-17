@@ -17,6 +17,7 @@ class Cita (models.Model):
     motivo_consulta = models.TextField()
     estado_cita = models.CharField(choices=ESTADO_CITA.choices, default=ESTADO_CITA.PENDIENTE, max_length=10)
     justificacion_ausencia = models.TextField(blank=True, null=True)
+    es_grupal = models.BooleanField(default=False)
     def __str__(self):
         return f"Cita de {self.paciente} con {self.usuario} el {self.fecha} a las {self.hora}"
 
