@@ -1,5 +1,5 @@
 import '/src/static/Tailwind.css'
-import Login from './components/Login';
+import Base from './features/login/Base'
 import { useState } from 'react';
 import { Route, Routes, Navigate, Link } from 'react-router-dom';
 import UsersPage from './features/usuario/UsersPage';
@@ -22,7 +22,8 @@ export default function App() {
   return (
     <Routes>
       <Route element={<AppLayout handleLogOut={handleLogOut} isAuthenticated={isAuthenticated} />}>
-        <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login onLoginSuccess={handleLoginSuccess} />} />
+        <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Base onLoginSuccess={handleLoginSuccess} />} />
+        <Route path='/registro' element={isAuthenticated ? <AgendaPage /> : <Base onLoginSuccess={handleLoginSuccess}/>}/>
         <Route path='/' element={isAuthenticated ? <AgendaPage /> : <Navigate to="/login" />} />
         <Route path='/usuario' element={isAuthenticated ? <UsersPage /> : <Navigate to="/login" />} />
       </Route>
