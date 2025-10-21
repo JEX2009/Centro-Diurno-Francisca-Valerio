@@ -1,0 +1,31 @@
+import '/src/static/Tailwind.css'
+import Login from './components/Login';
+import { useState } from 'react';
+import { Route, Routes, Navigate, Link } from 'react-router-dom';
+import UsersPage from './features/usuario/UsersPage';
+import AgendaPage from './features/agenda/AgendaPage';
+import AppLayout  from './layout/AppLayout';
+
+export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('access_token'));
+  
+  const handleLoginSuccess = () => {
+    setIsAuthenticated(true);
+  }
+
+  const handleLogOut = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+  }
+
+  return (
+    <Routes>
+      <Route element={<AppLayout handleLogOut={handleLogOut} isAuthenticated={isAuthenticated} />}>
+        <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login onLoginSuccess={handleLoginSuccess} />} />
+        <Route path='/' element={isAuthenticated ? <AgendaPage /> : <Navigate to="/login" />} />
+        <Route path='/usuario' element={isAuthenticated ? <UsersPage /> : <Navigate to="/login" />} />
+      </Route>
+    </Routes >
+  );
+}

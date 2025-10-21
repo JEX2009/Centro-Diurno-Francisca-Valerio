@@ -1,0 +1,33 @@
+import '/src/static/Tailwind.css'
+import { Link, Outlet } from 'react-router-dom';
+
+export default function Navbar(props) {
+    const { isAuthenticated, handleLogOut } = props;
+    return (
+        <>
+            <header className="bg-blue-500 shadow p-4">
+                <div className='container mx-auto flex justify-between items-center'>
+                    <h1 className="text-2xl font-bold text-white">Sistema de Terapias</h1>
+                    {isAuthenticated && (
+                        <nav>
+                            <ul className="flex space-x-4">
+                                <li>
+                                    <Link to="/usuario" className="text-white hover:text-gray-800 transition duration-300 ease-in-out">Usuario</Link>
+                                </li>
+                                <li>
+                                    <Link to="/" className="text-white hover:text-gray-800 transition duration-300 ease-in-out">Agenda</Link>
+                                </li>
+                                <li>
+                                    <button onClick={handleLogOut} className="text-white hover:text-gray-800 transition duration-300 ease-in-out">Cerrar Sesión</button>
+                                </li>
+                            </ul>
+                        </nav>
+                    )}
+                </div>
+            </header>
+            <main className="p-4">
+                <Outlet />
+            </main>
+        </>
+    )
+}
