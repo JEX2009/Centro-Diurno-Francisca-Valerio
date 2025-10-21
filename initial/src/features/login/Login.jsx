@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form'; // 1. Importar useForm
-import { fetchLogin } from '../service/api/apiUser';
+import { useForm } from 'react-hook-form';
+import { fetchLogin } from '../../service/api/apiUser';
 
 const Login = (props) => {
     const { onLoginSuccess } = props;
@@ -8,7 +8,6 @@ const Login = (props) => {
 
     const [apiError, setApiError] = useState(null);
 
-    // 3. La función de envío ahora recibe los datos del formulario
     const onSubmit = async (data) => {
         setApiError(null);
 
@@ -23,16 +22,13 @@ const Login = (props) => {
     };
 
     return (
-        <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
-            <h2 className="text-2xl font-bold mb-6 text-center">Iniciar Sesión</h2>
-            {/* 4. Usar handleSubmit para envolver nuestro onSubmit */}
+        <>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-4">
                     <label className="block text-gray-700 mb-2" htmlFor="username">Usuario</label>
                     <input
                         type="text"
                         id="username"
-                        // 5. Registrar el input en el formulario
                         {...register("username", { required: "El usuario es obligatorio" })}
                         className={`w-full px-3 py-2 border rounded-lg ${errors.username ? 'border-red-500' : ''}`}
                     />
@@ -53,7 +49,7 @@ const Login = (props) => {
                 </button>
             </form>
             {apiError && <p className="text-red-500 mt-4 text-center">{apiError}</p>}
-        </div>
+        </>
     );
 };
 

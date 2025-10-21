@@ -10,7 +10,7 @@ export default function useUpdate(updateFunction) {
         if (succes) {
             const timerId = setTimeout(() => {
                 setSucces(false);
-            }, 2000); 
+            }, 2000);
             return () => {
                 clearTimeout(timerId);
             };
@@ -18,7 +18,7 @@ export default function useUpdate(updateFunction) {
     }, [succes]);
 
     const handleUpdate = async (id, dataToSend) => {
-        try {
+        try {   
             setError(null);
             setIsLoading(true);
             const response = await updateFunction(id, dataToSend);
@@ -26,8 +26,7 @@ export default function useUpdate(updateFunction) {
             setSucces(true);
             return response;
         } catch (error) {
-            console.log()
-            setError(false);
+            setError(error.response.data.username[0]);
         } finally {
             setIsLoading(false);
         }

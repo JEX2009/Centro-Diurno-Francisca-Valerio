@@ -15,7 +15,7 @@ export default function UsersPage() {
         <>
             {isLoading && (<LoadingSpinner />)}
             {data && (
-                <div class="w-full max-w-md mx-auto p-6 mt-10 bg-white rounded-lg shadow-md mb-4">
+                <div className="w-full max-w-md mx-auto p-6 mt-10 bg-white rounded-lg shadow-md mb-4">
 
                     <h2 className="text-3xl font-bold mb-10 text-center ">Mi perfil</h2>
                     <div className="flex justify-evenly ">
@@ -28,15 +28,15 @@ export default function UsersPage() {
                     </div>
                 </div>
             )}
-            {error && (<ErrorMessage />)}
+            {error && (<ErrorMessage/>)}
             {editor && <EditUser
                 user_data={data}
                 cerrarFormulario={setEditor}
                 isLoading={isLoadingUpdate}
                 handleUpdate={handleUpdate}
-            />}
-
-            {errorUpdate && (<ErrorMessage />)}
+                succes={succesUpdate}
+            />} 
+            {errorUpdate && (<ErrorMessage message={errorUpdate } />)}
             {succesUpdate && (<SuccessMessage />)}
         </>
     )

@@ -1,7 +1,8 @@
 import { useForm } from 'react-hook-form';
+import SuccessMessage from '../../../components/SuccessMessage';
 
 export default function EditUser(props) {
-    const { user_data, cerrarFormulario, isLoading, handleUpdate } = props;
+    const { user_data, cerrarFormulario, isLoading, handleUpdate,success} = props;
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             username: user_data.username,
@@ -13,7 +14,7 @@ export default function EditUser(props) {
     const save = (dataForm) => {
         const dataToUpdate = { ...dataForm };
         handleUpdate(user_data.id, dataToUpdate);
-        cerrarFormulario(false);
+        cerrarFormulario(false) 
     }
 
     return (
