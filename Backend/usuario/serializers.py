@@ -11,4 +11,13 @@ class UsuarioSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         worker = m.Usuario.objects.create_user(**validated_data)
         return worker
+    def update(self, instance, validated_data):
+        password = validated_data.pop('password', None) 
+        
+        instance = super().update(instance, validated_data) 
     
+        if password:
+            instance.set_password(password)
+            instance.save()
+    
+        return instance
