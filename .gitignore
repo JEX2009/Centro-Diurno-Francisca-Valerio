@@ -2,42 +2,43 @@
 # Archivos y carpetas comunes a ignorar
 # ====================================
 
-# Archivos del sistema operativo
-.DS_Store
-Thumbs.db
-ehthumbs.db
-Icon?
-desktop.ini
+# 1. Dependencias y Entornos
+# -------------------------
+# Ignorar dependencias de paquetes y entornos virtuales
+node_modules/
+vendor/
+venv/
+env/
+__pycache__/
 
-# Logs
-*.log
+# 2. Logs y Archivos Temporales
+# -------------------------
+# Ignorar archivos de registro, temporales y del sistema
 logs/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
 
-# Archivos temporales
 *.tmp
 *.swp
 *.swo
 *.bak
 *.old
 *.orig
+~$*
+*.temp
 
-# Archivos de dependencias
-node_modules/
-vendor/
-
-# Archivos de entornos virtuales (Python)
-venv/
-env/
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Archivos de compilación (Java, C, C++)
+# 3. Artefactos de Build y Compilación
+# -------------------------
+# Ignorar carpetas de salida de compiladores y bundlers
+build/
+dist/
+dist-ssr/
+target/
+bin/
 *.class
 *.o
 *.so
@@ -48,45 +49,71 @@ __pycache__/
 *.jar
 *.war
 *.ear
-target/
-build/
-dist/
-bin/
-.gradle/
-.mvn/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
 
-# IDEs y editores
-.vscode/
+# 4. Configuración Local
+# -------------------------
+# Ignorar archivos de variables de entorno y configuración local
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.test
+
+# 5. IDEs y Editores
+# -------------------------
+# Ignorar carpetas y archivos específicos del editor
+.vscode/*
+!.vscode/extensions.json
 .idea/
+.idea_modules/
 *.iml
 *.sublime-workspace
 *.sublime-project
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
-# Archivos de configuración local
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# 6. Sistema Operativo
+# -------------------------
+.DS_Store
+._*
+Thumbs.db
+ehthumbs.db
+Icon?
+desktop.ini
 
-# Archivos de paquetes
+# 7. Bases de Datos Locales
+# -------------------------
+*.sqlite3
+db.sqlite3
+*.db
+
+# 8. Archivos Comprimidos y Cobertura
+# -------------------------
 *.tar.gz
 *.tgz
 *.zip
-
-# Cobertura de pruebas
 coverage/
 *.lcov
 
-# Archivos de base de datos locales
-*.sqlite3
-*.db
+# 9. Source Maps
+# -------------------------
+# Ignorar mapas de depuración (son útiles en producción, pero no en el repo)
+*.js.map
+*.css.map
 
-# Documentos temporales
-~$*
-*.tmp
-*.temp
+# 10. Proyectos Específicos (React/Next/Vite)
+# -------------------------
+.next/
+.vite/
 
-# ====================================
-# Fin del .gitignore genérico
-# ====================================
+# 11. Testing (Python)
+# -------------------------
+.pytest_cache/

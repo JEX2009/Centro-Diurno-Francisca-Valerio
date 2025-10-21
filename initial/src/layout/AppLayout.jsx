@@ -12,10 +12,10 @@ export default function Navbar(props) {
                         <nav>
                             <ul className="flex space-x-4">
                                 <li>
-                                    <Link to="/usuario" className="text-white hover:text-gray-800 transition duration-300 ease-in-out">Usuario</Link>
+                                    <Link to="/" className="text-white hover:text-gray-800 transition duration-300 ease-in-out">Agenda</Link>
                                 </li>
                                 <li>
-                                    <Link to="/" className="text-white hover:text-gray-800 transition duration-300 ease-in-out">Agenda</Link>
+                                    <Link to="/usuario" className="text-white hover:text-gray-800 transition duration-300 ease-in-out">Mi Perfil</Link>
                                 </li>
                                 <li>
                                     <button onClick={handleLogOut} className="text-white hover:text-gray-800 transition duration-300 ease-in-out">Cerrar Sesión</button>

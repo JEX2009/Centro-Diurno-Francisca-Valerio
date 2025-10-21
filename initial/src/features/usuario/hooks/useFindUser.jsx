@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { featchUser } from "../../../service/api/apiUser/";
 
-export default function useFindUser() {
+export default function useFindUser(succes) {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -28,7 +28,7 @@ export default function useFindUser() {
             console.error("Error al decodificar el token:", e);
             return { payload: null, tokenError: "Token inválido o corrupto." };
         }
-    }, []);
+    }, [succes]);
 
     useEffect(() => {
         if (tokenError) {

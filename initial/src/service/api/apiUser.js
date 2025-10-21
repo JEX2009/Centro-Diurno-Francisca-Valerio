@@ -33,10 +33,11 @@ export const featchUser = async (user_id) => {
 
 export const  updateUser = async (user_id, data) => { 
     try {
-        const response = await axios.patch('http://localhost:8000/api/v1/usuarios/usuario/'+user_id + '/', {data});
+        const response = await axios.patch('http://localhost:8000/api/v1/usuarios/usuario/'+user_id + '/', data);
+        console.log(response.data)
         return response.data;
     } catch (error){
-        console.log()
+        console.log(error)
         throw error;
     }
 }
