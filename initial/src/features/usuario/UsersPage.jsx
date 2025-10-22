@@ -13,7 +13,7 @@ export default function UsersPage() {
     const { data, isLoading, error } = useFindUser(succesUpdate)
     return (
         <>
-            {isLoading && (<LoadingSpinner />)}
+            {isLoading && !data &&(<LoadingSpinner />)}
             {data && (
                 <div className="w-full max-w-md mx-auto p-6 mt-10 bg-white rounded-lg shadow-md mb-4">
 
@@ -28,7 +28,7 @@ export default function UsersPage() {
                     </div>
                 </div>
             )}
-            {error && (<ErrorMessage/>)}
+            {error && (<ErrorMessage message={error} />)}
             {editor && <EditUser
                 user_data={data}
                 cerrarFormulario={setEditor}

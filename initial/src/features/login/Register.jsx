@@ -38,9 +38,9 @@ export default function CrearUsuario(props) {
 
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)} className='space-y-2 flex justify-center items-center flex-col mt-8  '>
-                <div className="mb-6">
-                    <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1 text-center">Nombre de Usuario</label>
+            <form onSubmit={handleSubmit(onSubmit)} className=' flex justify-center items-center flex-col mt-8  '>
+                <div className="mb-2 w-full">
+                    <label htmlFor="username" className="block text-gray-700 mb-2">Nombre de Usuario</label>
                     <input
                         type="text"
                         id="username"
@@ -49,8 +49,8 @@ export default function CrearUsuario(props) {
                     />
                     {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username.message}</p>}
                 </div>
-                <div className="mb-6">
-                    <label htmlFor="first_name" className="block text-sm font-medium text-gray-700 mb-1 text-center">Nombre</label>
+                <div className="mb-2 w-full">
+                    <label htmlFor="first_name" className="block text-gray-700 mb-2">Nombre</label>
                     <input
                         type="text"
                         id="first_name"
@@ -59,8 +59,8 @@ export default function CrearUsuario(props) {
                     />
                     {errors.first_name && <p className="text-red-500 text-xs mt-1">{errors.first_name.message}</p>}
                 </div>
-                <div className="mb-6">
-                    <label htmlFor="last_name" className="block text-sm font-medium text-gray-700 mb-1 text-center">Apellidos</label>
+                <div className="mb-2 w-full">
+                    <label htmlFor="last_name" className="block text-gray-700 mb-2">Apellidos</label>
                     <input
                         type="text"
                         id="last_name"
@@ -69,8 +69,8 @@ export default function CrearUsuario(props) {
                     />
                     {errors.last_name && <p className="text-red-500 text-xs mt-1">{errors.last_name.message}</p>}
                 </div>
-                <div className="mb-6">
-                    <label htmlFor="codigo" className="block text-sm font-medium text-gray-700 mb-1 text-center">Codigo</label>
+                <div className="mb-2 w-full">
+                    <label htmlFor="codigo" className="block text-gray-700 mb-2">Codigo</label>
                     <input
                         type="text"
                         id="codigo"
@@ -79,8 +79,8 @@ export default function CrearUsuario(props) {
                     />
                     {errors.codigo && <p className="text-red-500 text-xs mt-1">{errors.codigo.message}</p>}
                 </div>
-                <div className="mb-6">
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1 text-center">Contraseña</label>
+                <div className="mb-6 w-full">
+                    <label htmlFor="password" className="block text-gray-700 mb-2">Contraseña</label>
                     <input
                         type="password"
                         id="password"
@@ -91,7 +91,7 @@ export default function CrearUsuario(props) {
                 </div>
                 <button
                     type="submit"
-                    className="w-auto border border-gray-300 font-bold py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors  cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed ">
+                    className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 cursor-pointer">
                     Crear
                 </button>
             </form>

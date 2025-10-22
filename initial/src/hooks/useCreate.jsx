@@ -19,7 +19,7 @@ export default function useCreate(createFunction, actualizeFunction = null) {
             setSucces("Se a creado con exito");
             return response;
         } catch (error) {
-            setError(error);
+            setError(error.response.data.username[0]);
         } finally {
             setIsLoading(false);
         }

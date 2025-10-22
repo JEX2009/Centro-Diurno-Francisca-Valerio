@@ -5,7 +5,7 @@ from . import serializers as s
 # Create your views here.
 
 class PacienteViewSet(viewsets.ModelViewSet):
-    queryset = m.Paciente.objects.all()
+    queryset = m.Paciente.objects.all().order_by('esta_activo')
     serializer_class = s.PacienteSerializer
     permission_classes = [permissions.AllowAny]
     def perform_destroy(self,instance):

@@ -7,10 +7,13 @@ export default function Navbar(props) {
         <>
             <header className="bg-blue-500 shadow p-4">
                 <div className='container mx-auto flex justify-between items-center'>
-                    <h1 className="text-2xl font-bold text-white">Sistema de Terapias</h1>
+                    <h1><Link to="/" className="text-2xl font-bold text-white">Sistema de Terapias </Link></h1>
                     {isAuthenticated && (
                         <nav>
                             <ul className="flex space-x-4">
+                                <li>
+                                    <Link to="/paciente" className="text-white hover:text-gray-800 transition duration-300 ease-in-out">Paciente</Link>
+                                </li>
                                 <li>
                                     <Link to="/" className="text-white hover:text-gray-800 transition duration-300 ease-in-out">Agenda</Link>
                                 </li>

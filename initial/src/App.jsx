@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Route, Routes, Navigate, Link } from 'react-router-dom';
 import UsersPage from './features/usuario/UsersPage';
 import AgendaPage from './features/agenda/AgendaPage';
+import PacientPage from './features/paciente/PacientPage';
 import AppLayout  from './layout/AppLayout';
 
 export default function App() {
@@ -26,6 +27,7 @@ export default function App() {
         <Route path='/registro' element={isAuthenticated ? <AgendaPage /> : <Base onLoginSuccess={handleLoginSuccess}/>}/>
         <Route path='/' element={isAuthenticated ? <AgendaPage /> : <Navigate to="/login" />} />
         <Route path='/usuario' element={isAuthenticated ? <UsersPage /> : <Navigate to="/login" />} />
+        <Route path='/paciente' element={isAuthenticated ? <PacientPage /> : <Navigate to="/login" />} />
       </Route>
     </Routes >
   );
