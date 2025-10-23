@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
-import { featchUser } from "../../../service/api/apiUser/";
+import { featchUser } from "../service/api/apiUser/";
 
-export default function useFindUser(succes) {
+export default function useFindUser(succes=null) {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);

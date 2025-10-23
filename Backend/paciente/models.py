@@ -31,10 +31,6 @@ class Paciente(models.Model):
     fecha_diagnostico_diabetes = models.DateField(blank=True, null=True)
     observaciones = models.TextField(blank=True, null=True)
     direccion = models.CharField(max_length=255, blank=True, null=True)
-    # The `esta_activo` field in the `Paciente` model is a BooleanField that represents whether the
-    # patient is currently active or not. By default, it is set to `True`, indicating that the patient
-    # is active. This field allows you to easily track the active status of a patient within your
-    # system.
     esta_activo = models.BooleanField(default=True)
     
     def __str__(self):

@@ -1,4 +1,4 @@
-import useFindUser from "./hooks/useFindUser"
+import useFindUser from "../../hooks/useFindUser"
 import LoadingSpinner from "../../components/LoadingSpinner"
 import ErrorMessage from "../../components/ErrorMessage"
 import SuccessMessage from "../../components/SuccessMessage"

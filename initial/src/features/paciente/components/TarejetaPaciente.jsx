@@ -11,7 +11,7 @@ import EditPacient from "./EditPacient";
 import DeletePacient from "./DeletePacient";
 
 export default function TarejetaPaciente(props) {
-    const { paciente, EditPaciente, DeletePaciente } = props;
+    const { paciente, EditPaciente, DeletePaciente,userData } = props;
     const [modal, setModal] = useState(false)
     const [modalEdit, setModalEdit] = useState(false)
     const [modalDelete, setModalDelete] = useState(false)
@@ -37,8 +37,12 @@ export default function TarejetaPaciente(props) {
                     {paciente.genero !== 'Masculino' ? <AiOutlineWoman size={32} /> : <RiMenLine size={32} />}
                     <div className="flex justify-between gap-3">
                         <button onClick={handleSeePaciente} className="cursor-pointer"><FaEye color={'green'} size={20} /></button>
-                        <button onClick={handleEditPaciente} className="cursor-pointer"><FaRegEdit size={20} /></button>
-                        <button onClick={handleDeletePaciente} className="cursor-pointer"><MdOutlineDeleteOutline color={'red'} size={20} /></button>
+                        {paciente.esta_activo == true && (
+                            <>
+                                <button onClick={handleEditPaciente} className="cursor-pointer"><FaRegEdit size={20} /></button>
+                                <button onClick={handleDeletePaciente} className="cursor-pointer"><MdOutlineDeleteOutline color={'red'} size={20} /></button>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
@@ -56,10 +60,11 @@ export default function TarejetaPaciente(props) {
                 />
             </PopUp>
             <PopUp isModalOpen={modalDelete} closeModal={() => { setModalDelete(false) }}>
-                <DeletePacient 
+                <DeletePacient
                     paciente={paciente}
                     setModalDelete={() => { setModalDelete(false) }}
                     DeletePaciente={DeletePaciente}
+                    userData={userData}
                 />
             </PopUp>
         </>
