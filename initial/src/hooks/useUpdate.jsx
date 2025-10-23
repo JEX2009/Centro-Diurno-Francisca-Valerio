@@ -7,18 +7,19 @@ export default function useUpdate(updateFunction) {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (succes) {
+        if (succes || error) {
             const timerId = setTimeout(() => {
                 setSucces(false);
+                setError(null);
             }, 2000);
             return () => {
                 clearTimeout(timerId);
             };
         }
-    }, [succes]);
+    }, [succes,error]);
 
     const handleUpdate = async (id, dataToSend) => {
-        try {   
+        try {
             setError(null);
             setIsLoading(true);
             const response = await updateFunction(id, dataToSend);
@@ -26,7 +27,17 @@ export default function useUpdate(updateFunction) {
             setSucces(true);
             return response;
         } catch (error) {
-            setError(error.response.data.username[0]);
+            if (error.response && error.response.data) {
+                const data = error.response.data;
+                const firstErrorKey = Object.keys(data)[0];
+                let errorMessage = data[firstErrorKey];
+                if (Array.isArray(errorMessage)) {
+                    errorMessage = errorMessage[0];
+                }
+                setError(errorMessage);
+            } else {
+                setError(error.message || "Ocurrió un error inesperado.");
+            }
         } finally {
             setIsLoading(false);
         }

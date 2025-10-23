@@ -1,7 +1,6 @@
 import { apiClient } from "./../apiClient"
 import axios from 'axios';
 
-
 export const fetchLogin = async (username, password) => {
     try {
         const response = await axios.post('http://localhost:8000/api/token/', {
