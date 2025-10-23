@@ -7,15 +7,16 @@ export default function useUpdate(updateFunction) {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (succes) {
+        if (succes || error) {
             const timerId = setTimeout(() => {
                 setSucces(false);
+                setError(null);
             }, 2000);
             return () => {
                 clearTimeout(timerId);
             };
         }
-    }, [succes]);
+    }, [succes,error]);
 
     const handleUpdate = async (id, dataToSend) => {
         try {

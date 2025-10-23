@@ -11,6 +11,13 @@ export default function UsersPage() {
     const [editor, setEditor] = useState(false)
     const { data: dataUpdate, isLoading: isLoadingUpdate, error: errorUpdate, succes: succesUpdate, handleUpdate } = useUpdate(updateUser);
     const { data, isLoading, error } = useFindUser(succesUpdate)
+
+    const firstName = data?.first_name || '';
+    const lastName = data?.last_name || '';
+    const fullName = `${firstName} ${lastName}`.trim();
+
+    const initials = (firstName.charAt(0) || '') + (lastName.charAt(0) || '');
+
     return (
         <>
             {isLoading && !data &&(<LoadingSpinner />)}
@@ -19,9 +26,13 @@ export default function UsersPage() {
 
                     <h2 className="text-3xl font-bold mb-10 text-center ">Mi perfil</h2>
                     <div className="flex justify-evenly ">
-                        <div className="w-24 h-24 rounded-full border border-gray-400 flex items-center justify-center text-4xl font-bold">{data.first_name.charAt(0).toUpperCase() + data.last_name.charAt(0).toUpperCase()}</div>
+                        <div className="w-24 h-24 rounded-full border border-gray-400 flex items-center justify-center text-4xl font-bold">
+                            {/* CORRECCIÓN APLICADA: Usar la variable de iniciales segura */}
+                            {initials.toUpperCase()}
+                        </div>
                         <div className="text-center">
-                            <h3 className="text-2xl font-semibold ">{data.first_name + ' ' + data.last_name} </h3>
+                            {/* CORRECCIÓN APLICADA: Usar la variable de nombre completo segura */}
+                            <h3 className="text-2xl font-semibold ">{fullName || data.username} </h3>
                             <h3 className="text-2xl text-gray-500">{data.username}</h3>
                             <button className="px-6 py-2 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 transition-colors mt-4" onClick={() => setEditor(true)}>Editar Perfil</button>
                         </div>

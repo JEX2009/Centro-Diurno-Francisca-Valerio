@@ -8,9 +8,12 @@ import PopUp from '../../components/PopUp'
 import { useState } from "react"
 
 export default function PacientPage() {
-    const { data, isLoading, error, DeletePaciente, EditPaciente, errorUpdate,CreatePaciente } = usePaciente();
-    const {data:userData,isLoading:isLoadingUser,error:userError}=useFindUser()
-    const [modal,setModal]=useState()
+    const { data, isLoading, error, DeletePaciente, EditPaciente, errorUpdate, CreatePaciente, searchTerm, handleSearchChange, filteredSearch } = usePaciente();
+    const { data: userData, isLoading: isLoadingUser, error: userError } = useFindUser()
+
+    const [modal, setModal] = useState()
+
+
     if (isLoading) {
         return (<LoadingSpinner />);
     }
@@ -21,29 +24,63 @@ export default function PacientPage() {
 
     return (
         <>
+
             <div className="grid grid-cols-2">
                 <div className="justify-self-end ">
                     <h2 className="text-2xl font-bold text-center mb-6">Pacientes</h2>
                 </div>
+
                 <div className="justify-self-end ">
-                    <button onClick={()=> setModal(true)} className="mr-10 bg-yellow-300 rounded-lg p-2 shadow shadow-xl cursor-pointer text-1xl text-bold">Crear Paciente</button>
+                    <button onClick={() => setModal(true)} className="mr-10 bg-yellow-300 rounded-lg p-2 shadow shadow-xl cursor-pointer text-1xl text-bold">Crear Paciente</button>
+                </div>
+
+                <div className="col-span-2">
+                    <div className="w-full sm:w-3/4 md:w-1/2 lg:w-1/3 mx-auto mb-4">
+                        <input
+                            type="text"
+                            className='border border-gray-700 rounded-xl w-full p-3 ' 
+                            onChange={handleSearchChange}
+                            placeholder="Agrega el nombre o la cedula del paciente..."
+                            value={searchTerm}
+                        />
+                    </div>
                 </div>
             </div>
-            <div class="max-w-3xl mx-auto mt-6 px-4">
-                {pacientes.map((paciente) => (
-                    <TarjetaPaciente
-                        paciente={paciente}
-                        key={paciente.id}
-                        EditPaciente={EditPaciente}
-                        DeletePaciente={DeletePaciente}
-                        userData={userData}
-                    />
-                ))}
-            </div>
-            <PopUp isModalOpen={modal} closeModal={()=>setModal(false)}>
+            {searchTerm !== "" ? (
+                <div class="max-w-3xl mx-auto mt-6 px-4">
+                    {filteredSearch.map((paciente) => (
+                        <TarjetaPaciente
+                            paciente={paciente}
+                            key={paciente.id}
+                            EditPaciente={EditPaciente}
+                            DeletePaciente={DeletePaciente}
+                            userData={userData}
+                        />
+                    ))}
+                </div >
+            ) : (
+                <>
+                    <div class="max-w-3xl mx-auto mt-6 px-4">
+                        {pacientes.map((paciente) => (
+                            <TarjetaPaciente
+                                paciente={paciente}
+                                key={paciente.id}
+                                EditPaciente={EditPaciente}
+                                DeletePaciente={DeletePaciente}
+                                userData={userData}
+                            />
+                        ))}
+                    </div >
+                </>
+            )
+            }
+
+
+
+            <PopUp isModalOpen={modal} closeModal={() => setModal(false)}>
                 <CreatePacient
                     CreatePaciente={CreatePaciente}
-                    closeModal={()=>setModal(false)}
+                    closeModal={() => setModal(false)}
                 />
             </PopUp>
         </>

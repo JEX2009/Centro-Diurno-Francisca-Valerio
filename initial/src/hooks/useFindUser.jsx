@@ -1,11 +1,20 @@
 import { useState, useMemo, useEffect } from "react";
 import { featchUser } from "../service/api/apiUser/";
 
-export default function useFindUser(succes=null) {
-    const [data, setData] = useState(null);
+export default function useFindUser(succes = null) {
+    const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    useEffect(() => {
+        if (data && data.length > 0) {
+            const timerId = setTimeout(() => {
+                setError(null);
+            }, 2000);
+            return () => {
+                clearTimeout(timerId);
+            };
+        }
+    }, [data]);
     const { payload, tokenError } = useMemo(() => {
         try {
             const accessToken = localStorage.getItem('access_token');
@@ -38,7 +47,7 @@ export default function useFindUser(succes=null) {
         }
 
         if (payload && payload.user_id) {
-            
+
             const fetchUserData = async () => {
                 try {
                     const response = await featchUser(payload.user_id);
@@ -51,7 +60,7 @@ export default function useFindUser(succes=null) {
             };
 
             fetchUserData();
-            
+
         } else if (!tokenError) {
             setError("Token válido pero no contiene user_id.");
             setIsLoading(false);

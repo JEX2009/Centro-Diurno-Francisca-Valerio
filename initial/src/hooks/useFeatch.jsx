@@ -5,6 +5,16 @@ export default function useFetch(fetchFunction) {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    useEffect(() => {
+        if (data.length > 0) {
+            const timerId = setTimeout(() => {
+                setError(null);
+            }, 2000);
+            return () => {
+                clearTimeout(timerId);
+            };
+        }
+    }, [data]);
     const executeFetch = async () => {
         try {
             setError(null);

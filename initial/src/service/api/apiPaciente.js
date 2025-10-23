@@ -32,11 +32,9 @@ export const createPacient = async (data)=>{
 
 export const deletePacient = async (paciente_id, data)=>{
     try {
-        console.log(data)
         const config = {
             data: data 
         };
-
         const response = await axios.delete(
             'http://localhost:8000/api/v1/pacientes/paciente/' + paciente_id + '/', 
             config 
