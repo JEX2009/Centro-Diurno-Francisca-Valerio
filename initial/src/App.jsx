@@ -5,6 +5,8 @@ import { Route, Routes, Navigate, Link } from 'react-router-dom';
 import UsersPage from './features/usuario/UsersPage';
 import AgendaPage from './features/agenda/AgendaPage';
 import PacientPage from './features/paciente/PacientPage';
+import TerapiasPage from './features/terapias/TerapiasPage';
+import CasosPage from './features/casos/CasosPage';
 import AppLayout  from './layout/AppLayout';
 
 export default function App() {
@@ -28,6 +30,8 @@ export default function App() {
         <Route path='/' element={isAuthenticated ? <AgendaPage /> : <Navigate to="/login" />} />
         <Route path='/usuario' element={isAuthenticated ? <UsersPage /> : <Navigate to="/login" />} />
         <Route path='/paciente' element={isAuthenticated ? <PacientPage /> : <Navigate to="/login" />} />
+        <Route path='/terapias' element={isAuthenticated ? <TerapiasPage /> : <Navigate to="/login" />} />
+        <Route path='/casos_especiales' element={isAuthenticated ? <CasosPage /> : <Navigate to="/login" />} />
       </Route>
     </Routes >
   );

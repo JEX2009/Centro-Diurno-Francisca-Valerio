@@ -1,8 +1,9 @@
-import axios from 'axios';
+import { apiClient } from '../apiClient';
+
 
 export const fetchPaciente = async()=>{
     try {
-        const response = await axios.get('http://localhost:8000/api/v1/pacientes/paciente/');
+        const response = await apiClient.get('pacientes/paciente/');
         return response;
     } catch (error) {
         console.log();
@@ -12,7 +13,7 @@ export const fetchPaciente = async()=>{
 
 export const updatePaciente = async ( paciente_id,data)=>{
     try {
-        const response = await axios.patch('http://localhost:8000/api/v1/pacientes/paciente/'+paciente_id + '/', data);
+        const response = await apiClient.patch('pacientes/paciente/'+paciente_id + '/', data);
         return response.data;
     } catch (error){
         console.log();
@@ -22,7 +23,7 @@ export const updatePaciente = async ( paciente_id,data)=>{
 
 export const createPacient = async (data)=>{
     try {
-        const response = await axios.post('http://localhost:8000/api/v1/pacientes/paciente/', data);
+        const response = await apiClient.post('pacientes/paciente/', data);
         return response.data;
     } catch (error) {
         console.log();
@@ -35,8 +36,8 @@ export const deletePacient = async (paciente_id, data)=>{
         const config = {
             data: data 
         };
-        const response = await axios.delete(
-            'http://localhost:8000/api/v1/pacientes/paciente/' + paciente_id + '/', 
+        const response = await apiClient.delete(
+            'pacientes/paciente/' + paciente_id + '/', 
             config 
         );
         

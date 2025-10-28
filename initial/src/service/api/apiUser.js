@@ -22,7 +22,7 @@ export const fetchLogin = async (username, password) => {
 
 export const featchUser = async (user_id) => {
     try {
-        const response = await axios.get('http://localhost:8000/api/v1/usuarios/usuario/'+user_id + '/' );
+        const response = await apiClient.get('usuarios/usuario/'+user_id + '/' );
         return response.data;
     } catch (error){
         console.log()
@@ -32,7 +32,7 @@ export const featchUser = async (user_id) => {
 
 export const  updateUser = async (user_id, data) => { 
     try {
-        const response = await axios.patch('http://localhost:8000/api/v1/usuarios/usuario/'+user_id + '/', data);
+        const response = await apiClient.patch('usuarios/usuario/'+user_id + '/', data);
         return response.data;
     } catch (error){
         console.log()
@@ -42,7 +42,7 @@ export const  updateUser = async (user_id, data) => {
 
 export const createUser = async (data)=>{
     try {
-        const response = await axios.post('http://localhost:8000/api/v1/usuarios/usuario/', data);
+        const response = await apiClient.post('usuarios/usuario/', data);
         return response.data;
     } catch (error){
         console.log()
