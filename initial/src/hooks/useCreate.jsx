@@ -29,7 +29,7 @@ export default function useCreate(createFunction, actualizeFunction = null) {
             setSucces("Se a creado con exito");
             return response;
         } catch (error) {
-            setError(error.response.data.username[0]);
+            setError(error.response);
         } finally {
             setIsLoading(false);
         }
