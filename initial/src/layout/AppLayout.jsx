@@ -12,7 +12,13 @@ export default function Navbar(props) {
                         <nav>
                             <ul className="flex space-x-4">
                                 <li>
+                                    <Link to="/casos_especiales" className="text-white hover:text-gray-800 transition duration-300 ease-in-out">Casos Especiales</Link>
+                                </li>
+                                <li>
                                     <Link to="/paciente" className="text-white hover:text-gray-800 transition duration-300 ease-in-out">Paciente</Link>
+                                </li>
+                                <li>
+                                    <Link to="/terapias" className="text-white hover:text-gray-800 transition duration-300 ease-in-out">Terapias</Link>
                                 </li>
                                 <li>
                                     <Link to="/" className="text-white hover:text-gray-800 transition duration-300 ease-in-out">Agenda</Link>

@@ -11,7 +11,7 @@ import EditPacient from "./EditPacient";
 import DeletePacient from "./DeletePacient";
 
 export default function TarejetaPaciente(props) {
-    const { paciente, EditPaciente, DeletePaciente,userData } = props;
+    const { paciente, EditPaciente, DeletePaciente,userData,citas} = props;
     const [modal, setModal] = useState(false)
     const [modalEdit, setModalEdit] = useState(false)
     const [modalDelete, setModalDelete] = useState(false)
@@ -48,6 +48,7 @@ export default function TarejetaPaciente(props) {
             </div>
             <PopUp closeModal={() => { setModal(false) }} isModalOpen={modal}>
                 <SeePacient
+                    citas={citas}
                     paciente={paciente}
                     calcularEdad={calcularEdad}
                 />
