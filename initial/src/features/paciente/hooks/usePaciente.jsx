@@ -1,7 +1,7 @@
 
 import { fetchPaciente, updatePaciente, createPacient, deletePacient } from "../../../service/api/apiPaciente";
 import { fetchCitaFinal } from "../../../service/api/apiCita";
-import useFeatch from '../../../hooks/useFeatch'
+import useFeatch from '../../../hooks/useFeatch';
 import useUpdate from "../../../hooks/useUpdate";
 import useCreate from "../../../hooks/useCreate";
 import useFindUser from "../../../hooks/useFindUser";
