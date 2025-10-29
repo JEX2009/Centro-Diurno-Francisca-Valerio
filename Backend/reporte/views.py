@@ -6,7 +6,7 @@ from . import serializers as s
 from cita import models as m_cita
 from caso import models as m_caso
 from usuario.models import Usuario as m_usuario
-from caso.serializers import CasoSerializer 
+from caso.serializers import CasoReadSerializer
 
 #http://localhost:8000/api/v1/reportes/reporte/generate-preview/
 class ReporteViewSet(viewsets.ModelViewSet):
@@ -49,7 +49,7 @@ class ReporteViewSet(viewsets.ModelViewSet):
 
         # Casos relevantes
         casos_relevantes_qs = m_caso.Caso.objects.filter(fecha_creacion__date__range=[inicio, fin])
-        casos_relevantes_serializer = CasoSerializer(casos_relevantes_qs, many=True)
+        casos_relevantes_serializer = CasoReadSerializer(casos_relevantes_qs, many=True)
 
         #para debuggin 
         if not request.user.is_authenticated:
