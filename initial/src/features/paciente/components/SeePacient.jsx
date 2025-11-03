@@ -5,26 +5,28 @@ import Responsables from './Responsables';
 import Medicamentos from './Medicamentos';
 import useMedicamento from "../hooks/useMedicamento"
 import useResponsable from "../hooks/useResponsables"
+import usePacientTest from "../hooks/usePacientTest"
 import TestAnteriores from './TestAnteriores';
 
 export default function SeePacient(props) {
     const { paciente, calcularEdad, citas } = props;
     const [activeTab, setActiveTab] = useState('info');
-    const {medicamentos,isLoading,error,succesCreate,errorCreate,crearMedicamento,borrarMedicamento} = useMedicamento();
-    const {responsables,isLoading:isLoadingResponsable,error:errorResponsable,succesCreate:succesCreateResponsable,errorCreate:errorCreateResponsable,crearResponsable} = useResponsable();
+    const { medicamentos, isLoading, error, succesCreate, errorCreate, crearMedicamento, borrarMedicamento } = useMedicamento();
+    const { responsables, isLoading: isLoadingResponsable, error: errorResponsable, succesCreate: succesCreateResponsable, errorCreate: errorCreateResponsable, crearResponsable } = useResponsable();
+    const { tests, isLoadingRespuesta, errorRespuesta } = usePacientTest();
 
     const renderContent = () => {
         switch (activeTab) {
             case 'info':
                 return <InformacionGeneralSection paciente={paciente} calcularEdad={calcularEdad} />;
             case 'responsables':
-                return <Responsables paciente={paciente} responsables={responsables} isLoading={isLoadingResponsable} error={errorResponsable} succesCreate={succesCreateResponsable} errorCreate={errorCreateResponsable} crearResponsable={crearResponsable}/>;
+                return <Responsables paciente={paciente} responsables={responsables} isLoading={isLoadingResponsable} error={errorResponsable} succesCreate={succesCreateResponsable} errorCreate={errorCreateResponsable} crearResponsable={crearResponsable} />;
             case 'medicamentos':
-                return <Medicamentos paciente={paciente}  medicamentos={medicamentos} isLoading={isLoading} error={error} succesCreate={succesCreate} errorCreate={errorCreate} crearMedicamento={crearMedicamento} borrarMedicamento={borrarMedicamento}/>;
+                return <Medicamentos paciente={paciente} medicamentos={medicamentos} isLoading={isLoading} error={error} succesCreate={succesCreate} errorCreate={errorCreate} crearMedicamento={crearMedicamento} borrarMedicamento={borrarMedicamento} />;
             case 'atenciones':
                 return <AtencionesAnterioresSection citas={citas} paciente={paciente} />;
             case 'tests':
-                return <TestAnteriores paciente={paciente} />;
+                return <TestAnteriores paciente={paciente} tests={tests} isLoading={isLoadingRespuesta}  error={errorRespuesta}/>;
             default:
                 return null;
         }
