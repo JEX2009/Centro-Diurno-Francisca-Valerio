@@ -15,6 +15,9 @@ export default function Navbar(props) {
                                     <Link to="/casos_especiales" className="text-white hover:text-gray-800 transition duration-300 ease-in-out">Casos Especiales</Link>
                                 </li>
                                 <li>
+                                    <Link to="/test" className="text-white hover:text-gray-800 transition duration-300 ease-in-out">Test Paciente</Link>
+                                </li>
+                                <li>
                                     <Link to="/paciente" className="text-white hover:text-gray-800 transition duration-300 ease-in-out">Paciente</Link>
                                 </li>
                                 <li>
