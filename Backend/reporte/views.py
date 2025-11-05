@@ -7,7 +7,7 @@ from cita import models as m_cita
 from caso import models as m_caso
 from usuario.models import Usuario as m_usuario
 from caso.serializers import CasoReadSerializer
-
+from django.db import models
 
 class ReporteViewSet(viewsets.ModelViewSet):
     queryset = m.Reporte.objects.all()
@@ -21,6 +21,12 @@ class ReporteViewSet(viewsets.ModelViewSet):
         
         inicio = preview_serializer.validated_data['fecha_inicio']
         fin = preview_serializer.validated_data['fecha_fin']
+        
+        # Obtiene el número de evaluaciones (debe ser un entero o 0)
+        evaluaciones = preview_serializer.validated_data.get('evaluaciones_realizadas', 0) 
+        medios = preview_serializer.validated_data.get('medios_terapeuticos_utilizados', '')
+        dificultades = preview_serializer.validated_data.get('dificultades_encontradas', '')
+        recomendaciones = preview_serializer.validated_data.get('recomendaciones', '')
         
         usuario_actual = request.user 
         
@@ -41,9 +47,11 @@ class ReporteViewSet(viewsets.ModelViewSet):
         
         terapias_realizadas = m_cita.CitaTerapia.objects.filter(id_cita__in=atenciones_en_rango.values('id'))
         
-        num_electroterapias = terapias_realizadas.filter(id_terapia__nombre__iexact='Electroterapia').count()
-        num_ejercicios_terapeuticos = terapias_realizadas.filter(id_terapia__nombre__iexact='Ejercicio Terapeutico').count()
-        num_terapias_cognitivas = terapias_realizadas.filter(id_terapia__nombre__iexact='Ejercicio Terapias Cognitivas PAM con DC').count()
+        terapias_contadas = terapias_realizadas.values(
+            nombre_terapia=models.F('id_terapia__nombre')
+        ).annotate(
+            total=models.Count('id_terapia__nombre')
+        ).order_by('nombre_terapia')
         
         num_terapias_grupales = citas_en_rango.filter(es_grupal=True, estado_cita='COMPLETA').count()
 
@@ -63,21 +71,19 @@ class ReporteViewSet(viewsets.ModelViewSet):
             },
             "estadisticas_de_tratamiento": {
                 "total_usuarios_atendidos": cantidad_pacientes_atendidos,
-                "total_electroterapias": num_electroterapias,
-                "total_ejercicios_terapeuticos": num_ejercicios_terapeuticos,
-                "total_terapias_cognitivas_pam": num_terapias_cognitivas,
+                "terapias_dinamicas": list(terapias_contadas), 
                 "ausencias_justificadas": cantidad_ausencias_justificadas,
                 "ausencias_injustificadas": cantidad_ausencias_injustificadas,
-                "evaluaciones_realizadas": "DATO_PENDIENTE",
+                "evaluaciones_realizadas": evaluaciones, 
                 "terapias_grupales": num_terapias_grupales,
             },
             "casos_destacados": casos_relevantes_serializer.data,
             
             "inicio_reporte": inicio,
             "fin_reporte": fin,
-            "medios_terapeuticos_utilizados": preview_serializer.validated_data.get('medios_terapeuticos_utilizados', ''),
-            "dificultades_encontradas": preview_serializer.validated_data.get('dificultades_encontradas', ''),
-            "recomendaciones": preview_serializer.validated_data.get('recomendaciones', ''),
+            "medios_terapeuticos_utilizados": medios,
+            "dificultades_encontradas": dificultades,
+            "recomendaciones": recomendaciones,
         }
 
         return Response(response_data, status=status.HTTP_200_OK)

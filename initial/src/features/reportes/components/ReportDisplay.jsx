@@ -1,7 +1,7 @@
 import { FaPrint, FaRegFilePdf } from "react-icons/fa";
 import { FiRefreshCcw } from "react-icons/fi";
 
-export default function ReportDisplay({ reporte, onNewSearch }) {
+export default function ReportDisplay({ reporte }) {
 
     const printReport = () => {
         window.print();
@@ -17,6 +17,8 @@ export default function ReportDisplay({ reporte, onNewSearch }) {
     const resumen = reporte.resumen_del_mes;
     const estadisticas = reporte.estadisticas_de_tratamiento;
     const casos = reporte.casos_destacados || [];
+    const terapiasDinamicas = estadisticas.terapias_dinamicas || [];
+
     const datosBusqueda = {
         inicio: reporte.inicio_reporte || 'N/A',
         fin: reporte.fin_reporte || 'N/A',
@@ -30,13 +32,6 @@ export default function ReportDisplay({ reporte, onNewSearch }) {
             <header className="flex justify-between items-center mb-6 border-b pb-4">
                 <h1 className="text-3xl font-extrabold text-green-700">Reporte Generado con Éxito</h1>
                 <div className="flex space-x-3">
-                    <button
-                        onClick={onNewSearch}
-                        className="flex items-center space-x-2 bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg shadow hover:bg-yellow-600 transition"
-                    >
-                        <FiRefreshCcw size={18} />
-                        <span>Nueva Búsqueda</span>
-                    </button>
                     <button
                         onClick={printReport}
                         className="flex items-center space-x-2 bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow hover:bg-blue-700 transition"
@@ -72,13 +67,19 @@ export default function ReportDisplay({ reporte, onNewSearch }) {
                         <div className="col-span-2 md:col-span-1 p-3 bg-indigo-50 rounded-lg"><span className="font-medium block">Usuarios Atendidos:</span> <span className="text-lg font-bold text-indigo-700">{resumen.usuarios_atendidos}</span></div>
                         <div className="col-span-2 md:col-span-1 p-3 bg-indigo-50 rounded-lg"><span className="font-medium block">Sesiones Realizadas:</span> <span className="text-lg font-bold text-indigo-700">{resumen.sesiones_realizadas}</span></div>
 
-                        {/* Terapias y Ausencias */}
+                        {/* Terapias Dinámicas y Fijas */}
                         <div className="col-span-4 grid grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
-                            <div className="p-3 bg-gray-100 rounded-lg"><span className="font-medium">Total Electroterapias:</span> <span className="font-bold">{estadisticas.total_electroterapias}</span></div>
-                            <div className="p-3 bg-gray-100 rounded-lg"><span className="font-medium">Ejercicios Terapéuticos:</span> <span className="font-bold">{estadisticas.total_ejercicios_terapeuticos}</span></div>
+                            {/* Terapias Dinámicas */}
+                            {terapiasDinamicas.map((terapia, index) => (
+                                <div key={index} className="p-3 bg-gray-100 rounded-lg">
+                                    <span className="font-medium">{terapia.nombre_terapia}:</span> 
+                                    <span className="font-bold">{terapia.total}</span>
+                                </div>
+                            ))}
+
+                            {/* Fijas (Ausencias y Grupales) */}
                             <div className="p-3 bg-red-100 rounded-lg"><span className="font-medium">Ausencias Justificadas:</span> <span className="font-bold text-red-700">{estadisticas.ausencias_justificadas}</span></div>
                             <div className="p-3 bg-red-100 rounded-lg"><span className="font-medium">Ausencias Injustificadas:</span> <span className="font-bold text-red-700">{estadisticas.ausencias_injustificadas}</span></div>
-                            <div className="p-3 bg-gray-100 rounded-lg"><span className="font-medium">Terapias Cognitivas:</span> <span className="font-bold">{estadisticas.total_terapias_cognitivas_pam}</span></div>
                             <div className="p-3 bg-gray-100 rounded-lg"><span className="font-medium">Terapias Grupales:</span> <span className="font-bold">{estadisticas.terapias_grupales}</span></div>
                             <div className="p-3 bg-gray-100 rounded-lg"><span className="font-medium">Evaluaciones Realizadas:</span> <span className="font-bold">{estadisticas.evaluaciones_realizadas}</span></div>
                         </div>
@@ -99,14 +100,16 @@ export default function ReportDisplay({ reporte, onNewSearch }) {
                     </div>
                 )}
 
-                {/* 5. DATOS DE BÚSQUEDA ORIGINALES (Mantenido y mejorado) */}
+                {/* 5. DATOS DE BÚSQUEDA ORIGINALES */}
                 <div className="pt-6 border-t border-gray-200">
                     <h3 className="text-xl font-semibold mb-3">Parámetros de Búsqueda</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
+                        
                         <div><span className="font-medium block">Periodo:</span> {datosBusqueda.inicio} al {datosBusqueda.fin}</div>
-                        <div><span className="font-medium block">Dificultades Reportadas:</span> {datosBusqueda.dificultades || 'N/A'}</div>
-                        <div className="md:col-span-2"><span className="font-medium block">Medios Terapéuticos Utilizados:</span> {datosBusqueda.medios}</div>
-                        <div className="md:col-span-2"><span className="font-medium block">Recomendaciones:</span> {datosBusqueda.recomendaciones}</div>
+                        <div><span className="font-medium block">Dificultades Reportadas:</span> {datosBusqueda.dificultades === 'N/A' ? datosBusqueda.dificultades : datosBusqueda.dificultades || ' '}</div>
+
+                        <div className="md:col-span-2"><span className="font-medium block">Medios Terapéuticos Utilizados:</span> {datosBusqueda.medios === 'N/A' ? datosBusqueda.medios : datosBusqueda.medios || ' '}</div>
+                        <div className="md:col-span-2"><span className="font-medium block">Recomendaciones:</span> {datosBusqueda.recomendaciones === 'N/A' ? datosBusqueda.recomendaciones : datosBusqueda.recomendaciones || ' '}</div>
                     </div>
                 </div>
 

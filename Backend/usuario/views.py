@@ -7,4 +7,3 @@ from . import serializers as s
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = m.Usuario.objects.all()
     serializer_class = s.UsuarioSerializer
-    permission_classes = [permissions.IsAuthenticated]

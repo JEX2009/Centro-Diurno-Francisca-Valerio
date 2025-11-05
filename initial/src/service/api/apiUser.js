@@ -15,7 +15,7 @@ export const fetchLogin = async (username, password) => {
 
         return response.data;
     } catch (error) {
-        console.error('Error en el inicio de sesión:', error);
+        console.error();
         throw error;
     }
 };

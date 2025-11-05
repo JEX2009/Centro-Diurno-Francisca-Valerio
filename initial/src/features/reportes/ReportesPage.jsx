@@ -14,7 +14,9 @@ export default function ReportesPage() {
     const labelClassName = "block text-sm font-medium text-gray-700 mb-1";
 
     const handleForm = (formData) => {
-        crearResumen(formData)
+        // Aseguramos que la cantidad de evaluaciones sea un número.
+        formData.evaluaciones_realizadas = parseInt(formData.evaluaciones_realizadas || 0, 10);
+        crearResumen(formData);
     }
 
     if (error) {
@@ -25,7 +27,6 @@ export default function ReportesPage() {
         return (
             <ReportDisplay 
                 reporte={data} 
-                onNewSearch={() => crearResumen(null)} 
             />
         );
     }
@@ -88,10 +89,26 @@ export default function ReportesPage() {
                         {errors.dificultades_encontradas && <p className="text-red-500 text-xs mt-1">{errors.dificultades_encontradas.message}</p>}
                     </div>
                 </div>
+                
+                {/* Campo para la cantidad de evaluaciones (TIPO NUMBER) */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <label htmlFor="evaluaciones_realizadas" className={labelClassName}>Cantidad de Evaluaciones Realizadas</label>
+                        <input
+                            type='number'
+                            id="evaluaciones_realizadas"
+                            {...register("evaluaciones_realizadas", { valueAsNumber: true, min: { value: 0, message: 'El valor debe ser 0 o mayor' } })}
+                            placeholder="Ej: 5"
+                            min="0"
+                            className={inputClassName("evaluaciones_realizadas")}
+                        />
+                        {errors.evaluaciones_realizadas && <p className="text-red-500 text-xs mt-1">{errors.evaluaciones_realizadas.message}</p>}
+                    </div>
+                </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div>
-                        <label htmlFor="recomendaciones" className={labelClassName}>Recomendaciones para el Cuidador/Paciente</label>
+                        <label htmlFor="recomendaciones" className={labelClassName}>Recomendaciones</label>
                         <textarea
                             id="recomendaciones"
                             rows={4}

@@ -7,7 +7,7 @@ export const createCita = async (data) => {
         const response = await apiClient.post('citas/cita/', data);
         return response;
     } catch (error) {
-        console.log(error); 
+        console.log(); 
         throw error;
     }
 }
