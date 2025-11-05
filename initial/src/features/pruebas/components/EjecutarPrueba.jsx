@@ -4,17 +4,23 @@ export default function EjecutarPrueba({ prueba, pacienteId, usuarioId, onResult
     const [respuestas, setRespuestas] = useState({});
     const [observaciones, setObservaciones] = useState('');
 
-    const handleRespuestaChange = (preguntaId, tipo, valor, opcionId = null) => {
+    const handleRespuestaChange = (preguntaId, tipo, valor, opcionId = null, puntaje = 0) => {
         let nuevaRespuesta = {
             pregunta: preguntaId,
             valor: null,
             opcion_respuesta: null,
+            // Guardamos el puntaje aquí temporalmente para facilitar la suma
+            puntaje_obtenido: 0, 
         };
 
         if (tipo === 'Opcion_Multiple') {
             nuevaRespuesta.opcion_respuesta = parseInt(opcionId);
+            // El puntaje viene de la opción seleccionada
+            nuevaRespuesta.puntaje_obtenido = puntaje; 
         } else {
             nuevaRespuesta.valor = valor;
+            // Para preguntas de texto/numérico, el puntaje es generalmente 0 o calculado por el backend
+            nuevaRespuesta.puntaje_obtenido = tipo === 'Numerico' && !isNaN(parseFloat(valor)) ? parseFloat(valor) : 0;
         }
 
         setRespuestas(prevRespuestas => ({
@@ -23,21 +29,31 @@ export default function EjecutarPrueba({ prueba, pacienteId, usuarioId, onResult
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const respuestasArray = Object.values(respuestas);
+        
+        // --- CÁLCULO DE PUNTUACIÓN TOTAL ---
+        const puntuacionTotal = respuestasArray.reduce((total, respuesta) => {
+            return total + (respuesta.puntaje_obtenido || 0); 
+        }, 0);
 
         const resultadoData = {
             paciente: pacienteId,
             prueba: prueba.id,
             usuario: usuarioId, 
             observaciones: observaciones,
-            respuestas: respuestasArray
+            puntuacion_total: puntuacionTotal, 
+            respuestas: respuestasArray.map(({ puntaje_obtenido, ...rest }) => rest) // Limpiamos el campo auxiliar "puntaje_obtenido"
         };
 
-        handleCreateRespuesta(resultadoData);
-        onResultadoGuardado();
+        try {
+            await handleCreateRespuesta(resultadoData);
+            onResultadoGuardado();
+        } catch (error) {
+            console.error("Error en handleSubmit:", error); 
+        }
     };
 
     return (
@@ -65,7 +81,7 @@ export default function EjecutarPrueba({ prueba, pacienteId, usuarioId, onResult
                                             name={`pregunta_${pregunta.id}`} 
                                             value={opcion.id}
                                             id={`opcion_${opcion.id}`}
-                                            onChange={() => handleRespuestaChange(pregunta.id, 'Opcion_Multiple', opcion.valor_puntaje.toString(), opcion.id)}
+                                            onChange={() => handleRespuestaChange(pregunta.id, 'Opcion_Multiple', opcion.valor_puntaje.toString(), opcion.id, opcion.valor_puntaje)}
                                             className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                                             required
                                         />

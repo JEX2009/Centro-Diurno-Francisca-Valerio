@@ -97,8 +97,8 @@ class ResultadoPruebaWriteSerializer(serializers.ModelSerializer):
     usuario = serializers.PrimaryKeyRelatedField(queryset=Usuario.objects.all())
     respuestas = RespuestaNestedWriteSerializer(many=True)
     class Meta:
-        model = m.ResultadoPrueba
-        fields = ['paciente', 'prueba', 'usuario', 'observaciones', 'respuestas']
+        model = m.ResultadoPrueba   
+        fields = ['paciente', 'prueba', 'usuario', 'observaciones', 'respuestas','puntuacion_total',]
 
     def create(self, validated_data):
         respuestas_data = validated_data.pop('respuestas')

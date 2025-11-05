@@ -6,7 +6,7 @@ from . import serializers as s
 
 class MedicamentoViewSet(viewsets.ModelViewSet):
     queryset = m.Medicamento.objects.all().order_by('id')
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = s.MedicamentoWriteSerializer
     def get_serializer_class(self):
         if self.action in ['list', 'retrieve']:

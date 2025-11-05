@@ -26,13 +26,11 @@ export default function CrearUsuario(props) {
                 const firstErrorField = Object.keys(errors)[0]; // ej: "username"
                 const errorMessage = errors[firstErrorField][0]; // ej: "Este usuario ya existe"
 
-                setApiError(errorMessage); // Muestra el error real del backend
+                setApiError(errorMessage); 
 
             } else {
-                // Si es un error genérico (ej. no hay internet)
                 setApiError('Ocurrió un error al intentar crear la cuenta.');
             }
-            console.error(err);
         }
     };
 

@@ -8,6 +8,7 @@ import PacientPage from './features/paciente/PacientPage';
 import TerapiasPage from './features/terapias/TerapiasPage';
 import CasosPage from './features/casos/CasosPage';
 import TestPage from './features/pruebas/TestPage';
+import ReportesPage from './features/reportes/ReportesPage';
 import AppLayout  from './layout/AppLayout';
 
 export default function App() {
@@ -34,6 +35,7 @@ export default function App() {
         <Route path='/terapias' element={isAuthenticated ? <TerapiasPage /> : <Navigate to="/login" />} />
         <Route path='/casos_especiales' element={isAuthenticated ? <CasosPage /> : <Navigate to="/login" />} />
         <Route path='/test' element={isAuthenticated ? <TestPage /> : <Navigate to="/login" />} />
+        <Route path='/reporte' element={isAuthenticated ? <ReportesPage /> : <Navigate to="/login" />} />
       </Route>
     </Routes >
   );

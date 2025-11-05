@@ -8,7 +8,7 @@ from . import serializers as s
 class EncargadoViewSet(viewsets.ModelViewSet):
     queryset = m.Encargado.objects.all()
     serializer_class = s.EncargadoWriteSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     def get_serializer_class(self):
         if self.action in ['list', 'retrieve']:
             return s.EncargadoReadSerializer
