@@ -47,3 +47,24 @@ export const deletePacient = async (paciente_id, data)=>{
         throw error;
     }
 }
+
+export const fetchEpicrisis = async()=>{
+    try {
+        const response = await apiClient.get('pacientes/epicrisis/');
+        console.log(response)
+        return response;
+    } catch (error) {
+        console.log();
+        throw error;
+    }
+}
+
+export const createEpicrisis = async (data)=>{
+    try {
+        const response = await apiClient.post('pacientes/epicrisis/', data);
+        return response.data;
+    } catch (error) {
+        console.log();
+        throw error;
+    }
+}

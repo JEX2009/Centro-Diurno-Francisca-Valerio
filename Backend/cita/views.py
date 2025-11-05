@@ -3,11 +3,11 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from . import models as m
 from . import serializers as s
-from rest_framework import permissions as p
+from rest_framework import permissions 
 
 class CitaViewSet(viewsets.ModelViewSet):
     queryset = m.Cita.objects.all().order_by('-fecha', 'hora')
-    permission_classes = [p.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     
     def get_serializer_class(self):
         if self.action in ['list', 'retrieve']:
@@ -36,7 +36,7 @@ class CitaViewSet(viewsets.ModelViewSet):
 
 class AtencionCitaViewSet(viewsets.ModelViewSet):
     queryset = m.AtencionCita.objects.all()
-    permission_classes = [p.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     def get_serializer_class(self):
         if self.action in ['list', 'retrieve']:
             return s.AtencionCitaReadSerializer
@@ -45,4 +45,4 @@ class AtencionCitaViewSet(viewsets.ModelViewSet):
 class TerapiaViewSet(viewsets.ModelViewSet):
     queryset = m.Terapia.objects.all().order_by('nombre')
     serializer_class = s.TerapiaSerializer
-    permission_classes = [p.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]

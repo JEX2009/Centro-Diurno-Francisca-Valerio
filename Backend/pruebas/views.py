@@ -10,7 +10,7 @@ class PruebaViewSet(viewsets.ModelViewSet):
     Permite la creación/actualización anidada de Preguntas y Opciones.
     """
     queryset = m.Prueba.objects.all()
-    # permission_classes = [permissions.IsAdminUser] # Descomentar para proteger
+    permission_classes = [permissions.IsAuthenticated] 
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
@@ -24,7 +24,7 @@ class ResultadoPruebaViewSet(viewsets.ModelViewSet):
     Permite la creación anidada de Respuestas.
     """
     queryset = m.ResultadoPrueba.objects.all().order_by('-fecha_evaluacion')
-    # permission_classes = [permissions.IsAuthenticated] # Descomentar para proteger
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_serializer_class(self):
         if self.action == 'create': # Solo se necesita anidación para crear

@@ -3,9 +3,11 @@ import InformacionGeneralSection from './InformacionGeneralSection';
 import AtencionesAnterioresSection from './AtencionesAnterioresSection';
 import Responsables from './Responsables';
 import Medicamentos from './Medicamentos';
+import EpicrisisSection from './EpicrisisSection';
 import useMedicamento from "../hooks/useMedicamento"
 import useResponsable from "../hooks/useResponsables"
 import usePacientTest from "../hooks/usePacientTest"
+import useEpicrisis from "../hooks/useEpicrisis"
 import TestAnteriores from './TestAnteriores';
 
 export default function SeePacient(props) {
@@ -14,6 +16,7 @@ export default function SeePacient(props) {
     const { medicamentos, isLoading, error, succesCreate, errorCreate, crearMedicamento, borrarMedicamento } = useMedicamento();
     const { responsables, isLoading: isLoadingResponsable, error: errorResponsable, succesCreate: succesCreateResponsable, errorCreate: errorCreateResponsable, crearResponsable } = useResponsable();
     const { tests, isLoadingRespuesta, errorRespuesta } = usePacientTest();
+    const { epicrisis, isLoadingEpicrisis, errorEpicrisis, succes, subirEpicrisis,isLoadingCrEpicrisis,errorCrEpicrisis } = useEpicrisis();
 
     const renderContent = () => {
         switch (activeTab) {
@@ -26,7 +29,18 @@ export default function SeePacient(props) {
             case 'atenciones':
                 return <AtencionesAnterioresSection citas={citas} paciente={paciente} />;
             case 'tests':
-                return <TestAnteriores paciente={paciente} tests={tests} isLoading={isLoadingRespuesta}  error={errorRespuesta}/>;
+                return <TestAnteriores paciente={paciente} tests={tests} isLoading={isLoadingRespuesta} error={errorRespuesta} />;
+            case 'epicrisis':
+                return <EpicrisisSection
+                    paciente={paciente}
+                    epicrisis={epicrisis}
+                    isLoading={isLoadingEpicrisis}
+                    error={errorEpicrisis}
+                    isLoadingCreate ={isLoadingCrEpicrisis}
+                    errorCreate ={errorCrEpicrisis}
+                    succesCreate ={succes}
+                    subirEpicrisis={subirEpicrisis}
+                />;
             default:
                 return null;
         }
@@ -70,6 +84,13 @@ export default function SeePacient(props) {
                             }`}
                     >
                         Tests
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('epicrisis')}
+                        className={`py-2 px-1 border-b-2 font-medium text-sm transition duration-150 ease-in-out cursor-pointer ${activeTab === 'epicrisis' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                            }`}
+                    >
+                        Epicrisis
                     </button>
                 </nav>
             </div>
