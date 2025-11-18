@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 class Usuario(AbstractUser):
-    codigo= models.CharField(max_length=10, unique=True)
+    codigo= models.CharField(max_length=50, unique=True)
     def __str__(self):
         Usuario = self.first_name + ' ' + self.last_name
         return Usuario
