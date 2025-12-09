@@ -1,31 +1,49 @@
 import { useForm } from 'react-hook-form';
-import ErrorMessage from '../../../components/ErrorMessage';
+import ErrorMessage from '../../../components/ErrorMessage'; 
 
-export default function CreatePacient({CreatePaciente,closeModal}) {
+export default function CreatePacient({ CreatePaciente, closeModal }) {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const watchTieneDiabetes = watch("tiene_diabetes");
     const watchEstadoPension = watch("estado_pension");
+
     const inputClassName = (fieldName) =>
-        `w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out ${errors[fieldName] ? 'border-red-500' : 'border-gray-300'}`;
+        `w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out ${
+            errors[fieldName] ? 'border-red-500' : 'border-gray-300'
+        }`;
 
     const labelClassName = "block text-sm font-medium text-gray-700 mb-1";
 
-    const handleCreate= (data)=>{
+    const handleCreate = (data) => {
+        data.cantidad_hijos = data.cantidad_hijos || 0;
+        data.monto_pension = data.monto_pension || 0;
+
         CreatePaciente(data);
         closeModal();
-    }
+    };
+
+    const validatePastDate = (value) => {
+        if (!value) return true;
+        const inputDate = new Date(value);
+        const currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+        return inputDate <= currentDate || "La fecha no puede ser futura.";
+    };
 
     return (
         <>
             <h2 className="text-2xl font-semibold mb-1 text-center text-gray-800 pt-4">Crear Paciente</h2>
-            <form onSubmit={handleSubmit(handleCreate)} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5  gap-x-6 gap-y-6 items-start bg-white p-6 rounded-lg">
-                {/* --- Fila 1 --- */}
+
+            <form onSubmit={handleSubmit(handleCreate)} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-x-6 gap-y-6 items-start bg-white p-6 rounded-lg">
+
                 <div>
                     <label htmlFor="nombre_completo" className={labelClassName}>Nombre Completo</label>
                     <input
                         type="text"
                         id="nombre_completo"
-                        {...register("nombre_completo", { required: "El nombre es obligatorio" })}
+                        {...register("nombre_completo", { 
+                            required: "El nombre es obligatorio",
+                            maxLength: { value: 100, message: "El nombre es demasiado largo" }
+                        })}
                         className={inputClassName("nombre_completo")}
                     />
                     {errors.nombre_completo && <p className="text-red-500 text-xs mt-1">{errors.nombre_completo.message}</p>}
@@ -36,7 +54,11 @@ export default function CreatePacient({CreatePaciente,closeModal}) {
                     <input
                         type="text"
                         id="cedula"
-                        {...register("cedula", { required: "La cedula es obligatoria" })}
+                        {...register("cedula", { 
+                            required: "La cédula es obligatoria",
+                            minLength: { value: 5, message: "Mínimo 5 caracteres" },
+                            pattern: { value: /^[0-9]+$/, message: "Solo se permiten dígitos" }
+                        })}
                         className={inputClassName("cedula")}
                     />
                     {errors.cedula && <p className="text-red-500 text-xs mt-1">{errors.cedula.message}</p>}
@@ -47,7 +69,12 @@ export default function CreatePacient({CreatePaciente,closeModal}) {
                     <input
                         type="email"
                         id="email"
-                        {...register("email")}
+                        {...register("email", {
+                            pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                                message: "Formato de email incorrecto",
+                            }
+                        })}
                         className={inputClassName("email")}
                     />
                     {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
@@ -58,18 +85,23 @@ export default function CreatePacient({CreatePaciente,closeModal}) {
                     <input
                         type="tel"
                         id="telefono"
-                        {...register("telefono")}
+                        {...register("telefono", {
+                            minLength: { value: 8, message: "Mínimo 8 dígitos" },
+                            pattern: { value: /^[0-9]+$/, message: "Solo se permiten dígitos" }
+                        })}
                         className={inputClassName("telefono")}
                     />
                     {errors.telefono && <p className="text-red-500 text-xs mt-1">{errors.telefono.message}</p>}
                 </div>
+
                 <div>
-                    <label htmlFor="genero" className={labelClassName}>Genero</label>
+                    <label htmlFor="genero" className={labelClassName}>Género</label>
                     <select
                         id="genero"
-                        {...register("genero")}
+                        {...register("genero", { required: "El género es obligatorio" })}
                         className={inputClassName("genero")}
                     >
+                        <option value="">Seleccione...</option>
                         <option value="Masculino">Masculino</option>
                         <option value="Femenino">Femenino</option>
                         <option value="Otro">Otro</option>
@@ -77,34 +109,40 @@ export default function CreatePacient({CreatePaciente,closeModal}) {
                     {errors.genero && <p className="text-red-500 text-xs mt-1">{errors.genero.message}</p>}
                 </div>
 
-                {/* --- Fila 2 --- */}
-
                 <div>
                     <label htmlFor="fecha_nacimiento" className={labelClassName}>Fecha de Nacimiento</label>
                     <input
                         type='date'
                         id='fecha_nacimiento'
-                        {...register('fecha_nacimiento', { required: "La fecha de nacimiento es obligatoria" })}
+                        {...register('fecha_nacimiento', { 
+                            required: "La fecha de nacimiento es obligatoria",
+                            validate: validatePastDate
+                        })}
                         className={inputClassName("fecha_nacimiento")}
                     />
                     {errors.fecha_nacimiento && <p className="text-red-500 text-xs mt-1">{errors.fecha_nacimiento.message}</p>}
                 </div>
+
                 <div>
                     <label htmlFor="cantidad_hijos">Cantidad de Hijos</label>
                     <input
                         defaultValue={0}
                         type='number'
                         id='cantidad_hijos'
-                        {...register('cantidad_hijos')}
+                        {...register('cantidad_hijos', {
+                            min: { value: 0, message: "No puede ser negativo" },
+                            valueAsNumber: true
+                        })}
                         className={inputClassName('cantidad_hijos')}
                     />
                     {errors.cantidad_hijos && <p className='text-red-500 text-xs mt-1'>{errors.cantidad_hijos.message}</p>}
                 </div>
+
                 <div>
                     <label htmlFor="estado_pension" className={labelClassName}>Estado de Pensión</label>
                     <select
                         id="estado_pension"
-                        {...register("estado_pension")}
+                        {...register("estado_pension", { required: "El estado de pensión es obligatorio" })}
                         className={inputClassName("estado_pension")}
                     >
                         <option value="No tiene">No tiene</option>
@@ -119,9 +157,13 @@ export default function CreatePacient({CreatePaciente,closeModal}) {
                         <label htmlFor="monto_pension" className={labelClassName}>Monto de Pensión</label>
                         <input
                             type="number"
-                            step="1000"
+                            step="1"
                             id="monto_pension"
-                            {...register("monto_pension")}
+                            {...register("monto_pension", {
+                                required: "El monto es obligatorio si aplica",
+                                min: { value: 0, message: "El monto debe ser positivo" },
+                                valueAsNumber: true
+                            })}
                             className={inputClassName("monto_pension")}
                         />
                         {errors.monto_pension && <p className="text-red-500 text-xs mt-1">{errors.monto_pension.message}</p>}
@@ -129,14 +171,14 @@ export default function CreatePacient({CreatePaciente,closeModal}) {
                 )}
 
                 <div>
-                    <label htmlFor="profesion">Profesion</label>
+                    <label htmlFor="profesion">Profesión</label>
                     <input 
-                    type="text"
-                    id='profesion'
-                    {... register('profesion')}
-                    className={inputClassName('profesion')} 
+                        type="text"
+                        id='profesion'
+                        {...register('profesion')}
+                        className={inputClassName('profesion')} 
                     />
-                    {errors.profesion  && <p className="text-red-500 text-xs mt-1">{errors.profesion.message}</p>}
+                    {errors.profesion && <p className="text-red-500 text-xs mt-1">{errors.profesion.message}</p>}
                 </div>
 
                 <div className="flex items-center pt-5">
@@ -145,29 +187,31 @@ export default function CreatePacient({CreatePaciente,closeModal}) {
                             type="checkbox"
                             id="tiene_diabetes"
                             {...register("tiene_diabetes")}
-                            className={`h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 ${errors.tiene_diabetes ? 'border-red-500' : 'border-gray-300'}`}
+                            className={`h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 ${
+                                errors.tiene_diabetes ? 'border-red-500' : 'border-gray-300'
+                            }`}
                         />
                         <span>¿Tiene Diabetes?</span>
                     </label>
-                    {errors.tiene_diabetes && <p className="text-red-500 text-xs mt-1">{errors.tiene_diabetes.message}</p>}
                 </div>
 
-
-                {/* --- Fila 3 --- */}
                 {watchTieneDiabetes && (
-                        <div>
-                            <label htmlFor="fecha_diagnostico_diabetes" className={labelClassName}>Fecha Diagnóstico Diabetes</label>
-                            <input
-                                type="date"
-                                id="fecha_diagnostico_diabetes"
-                                {...register("fecha_diagnostico_diabetes", { required: "La fecha es obligatoria" })}
-                                className={inputClassName("fecha_diagnostico_diabetes")}
-                            />
-                            {errors.fecha_diagnostico_diabetes && <p className="text-red-500 text-xs mt-1">{errors.fecha_diagnostico_diabetes.message}</p>}
-                        </div>
+                    <div>
+                        <label htmlFor="fecha_diagnostico_diabetes" className={labelClassName}>Fecha Diagnóstico Diabetes</label>
+                        <input
+                            type="date"
+                            id="fecha_diagnostico_diabetes"
+                            {...register("fecha_diagnostico_diabetes", { 
+                                required: "La fecha es obligatoria",
+                                validate: validatePastDate
+                            })}
+                            className={inputClassName("fecha_diagnostico_diabetes")}
+                        />
+                        {errors.fecha_diagnostico_diabetes && <p className="text-red-500 text-xs mt-1">{errors.fecha_diagnostico_diabetes.message}</p>}
+                    </div>
                 )}
-                
-                <div className="lg:col-span-1" >
+
+                <div className="lg:col-span-1">
                     <label htmlFor="enfermedades" className={labelClassName}>Enfermedades</label>
                     <textarea
                         id="enfermedades"
@@ -175,7 +219,6 @@ export default function CreatePacient({CreatePaciente,closeModal}) {
                         {...register("enfermedades")}
                         className={inputClassName("enfermedades")}
                     />
-                    {errors.enfermedades && <p className="text-red-500 text-xs mt-1">{errors.enfermedades.message}</p>}
                 </div>
 
                 <div className="lg:col-span-1">
@@ -186,10 +229,9 @@ export default function CreatePacient({CreatePaciente,closeModal}) {
                         {...register("personas_con_las_que_habita")}
                         className={inputClassName("personas_con_las_que_habita")}
                     />
-                    {errors.personas_con_las_que_habita && <p className="text-red-500 text-xs mt-1">{errors.personas_con_las_que_habita.message}</p>}
                 </div>
 
-                <div className="col-span-1 ">
+                <div className="col-span-1">
                     <label htmlFor="observaciones" className={labelClassName}>Observaciones</label>
                     <textarea
                         id="observaciones"
@@ -197,7 +239,6 @@ export default function CreatePacient({CreatePaciente,closeModal}) {
                         {...register("observaciones")}
                         className={inputClassName("observaciones")}
                     />
-                    {errors.observaciones && <p className="text-red-500 text-xs mt-1">{errors.observaciones.message}</p>}
                 </div>
 
                 <div className="lg:col-span-full">
@@ -207,13 +248,12 @@ export default function CreatePacient({CreatePaciente,closeModal}) {
                         {...register("direccion")}
                         className={inputClassName("direccion")}
                     />
-                    {errors.direccion && <p className="text-red-500 text-xs mt-1">{errors.direccion.message}</p>}
                 </div>
 
                 <div className="col-span-full flex justify-center mt-6">
                     <button
                         type="submit"
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out "
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out"
                     >
                         Guardar
                     </button>
@@ -221,5 +261,5 @@ export default function CreatePacient({CreatePaciente,closeModal}) {
 
             </form>
         </>
-    )
+    );
 }

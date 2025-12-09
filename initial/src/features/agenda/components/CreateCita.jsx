@@ -51,7 +51,7 @@ export default function CreateCita({ generarCita, pacientes }) {
                 <textarea
                     id="motivo_consulta"
                     rows="3"
-                    {...register("motivo_consulta")}
+                    {...register("motivo_consulta", {required: "El motivo de la consulta es obligatorio" })}
                     className={inputClassName("motivo_consulta")}
                 />
                 {errors.motivo_consulta && <p className="text-red-500 text-xs mt-1 font-medium">{errors.motivo_consulta.message}</p>}
@@ -65,9 +65,6 @@ export default function CreateCita({ generarCita, pacientes }) {
                     className={inputClassName("estado_cita")}
                 >
                     <option value="PENDIENTE">Pendiente</option>
-                    <option value="COMPLETA">Completa</option>
-                    <option value="AUSENCIA">Ausencia</option>
-                    <option value="CANCELADA">Cancelada</option>
                 </select>
                 {errors.estado_cita && <p className="text-red-500 text-xs mt-1 font-medium">{errors.estado_cita.message}</p>}
             </div>

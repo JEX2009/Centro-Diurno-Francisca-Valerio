@@ -24,21 +24,21 @@ export default function EditUser(props) {
                 <input
                     type="text"
                     id="username"
-                    {...register("username")}
+                    {...register("username", { required: "El nombre de usuario es obligatorio" })}
                     className={`w-150 text-center px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.username ? 'border-red-500' : 'border-gray-300'}`}
                 />
                 <label htmlFor="first_name" className="block text-sm font-medium text-gray-700 mb-1 text-center">Nombre</label>
                 <input
                     type="text"
                     id="first_name"
-                    {...register("first_name")}
+                    {...register("first_name", { required: "El nombre es obligatorio" })}
                     className={`w-150 text-center px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.first_name ? 'border-red-500' : 'border-gray-300'}`}
                 />
                 <label htmlFor="last_name" className="block text-sm font-medium text-gray-700 mb-1 text-center">Apellidos</label>
                 <input
                     type="text"
                     id="last_name"
-                    {...register("last_name")}
+                    {...register("last_name",{required: "El apellido es obligatorio"})}
                     className={`w-150 text-center px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.last_name ? 'border-red-500' : 'border-gray-300'}`}
                 />
                 <button

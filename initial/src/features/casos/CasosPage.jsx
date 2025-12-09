@@ -12,10 +12,15 @@ export default function CasosPage() {
     const { data, isLoading, error, isLoadinCreate, errorCreate, succes, crearCaso, pacientes, isLoadingPaciente } = useCasos();
     const [modal, setModal] = useState(false);
     const [caso, setCaso] = useState()
+    
+    const pacientesActivos = pacientes.filter(paciente => paciente.esta_activo === true);
+
     const handleForm = (data) => {
+        if (!data.paciente && pacientesActivos.length > 0) {}
         crearCaso(data);
         reset();
     }
+
     const casos = data.data || [];
 
     if (isLoading) {
@@ -50,19 +55,19 @@ export default function CasosPage() {
                             <div>
                                 <label htmlFor="paciente" className={labelClassName}>Paciente</label>
                                 {isLoadingPaciente === true ? (
-                                    <p>Cargando pacientes...</p> // Muestra carga
+                                    <p>Cargando pacientes...</p>
                                 ) : (
                                     <>
                                         <select
                                             id="paciente"
-                                            {...register("paciente")}
+                                            {...register("paciente", { required: "Debe seleccionar un paciente activo" })}
                                             className={inputClassName("paciente")}
                                         >
                                             <option value="" disabled>
-                                                {pacientes.length > 0 ? "---Elige un Paciente---" : "No hay pacientes disponibles"}
+                                                {pacientesActivos.length > 0 ? "---Elige un Paciente---" : "No hay pacientes activos disponibles"}
                                             </option>
-                                            {/* Solo mapeamos si hay pacientes */}
-                                            {pacientes.map((paciente) => (
+                                            
+                                            {pacientesActivos.map((paciente) => ( 
                                                 <option
                                                     key={paciente.id}
                                                     value={paciente.id}
@@ -70,6 +75,7 @@ export default function CasosPage() {
                                                     {paciente.nombre_completo}
                                                 </option>
                                             ))}
+                                            
                                         </select>
                                         {errors.paciente && <p className="text-red-500 text-xs mt-1">{errors.paciente.message}</p>}
                                     </>
@@ -79,13 +85,14 @@ export default function CasosPage() {
                             <div>
                                 <label htmlFor="titulo" className={labelClassName}>Titulo</label>
                                 <input
-                                    type="titulo"
+                                    type="text"
                                     {...register("titulo", { required: "El titulo de el caso es obligatorio" })}
-                                    id=""
+                                    id="titulo"
                                     className={inputClassName("titulo")}
                                 />
                                 {errors.titulo && <p className="text-red-500 text-xs mt-1">{errors.titulo.message}</p>}
                             </div>
+
                             <div>
                                 <label htmlFor="descripcion" className={labelClassName}>Descripcion del Caso</label>
                                 <textarea
@@ -96,6 +103,7 @@ export default function CasosPage() {
                                 />
                                 {errors.descripcion && <p className="text-red-500 text-xs mt-1">{errors.descripcion.message}</p>}
                             </div>
+
                             <div className="col-span-full flex justify-center mt-6">
                                 <button
                                     type="submit"
@@ -107,9 +115,7 @@ export default function CasosPage() {
 
                         </form>
 
-                        {
-                            succes !== false && (<SuccessMessage />)
-                        }
+                        {succes !== false && (<SuccessMessage />)}
                     </div>
 
                     <div className="md:col-span-2">
@@ -130,10 +136,9 @@ export default function CasosPage() {
                     </div>
                 </div>
             </div>
+
             <PopUp closeModal={() => setModal(false)} isModalOpen={modal}>
-                <SeeCaso
-                    caso={caso}
-                />
+                <SeeCaso caso={caso} />
             </PopUp>
         </>
     )
