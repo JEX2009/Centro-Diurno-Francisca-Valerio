@@ -27,6 +27,7 @@ export default function EditUser(props) {
                     {...register("username", { required: "El nombre de usuario es obligatorio" })}
                     className={`w-150 text-center px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.username ? 'border-red-500' : 'border-gray-300'}`}
                 />
+                {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username.message}</p>}
                 <label htmlFor="first_name" className="block text-sm font-medium text-gray-700 mb-1 text-center">Nombre</label>
                 <input
                     type="text"
@@ -34,6 +35,7 @@ export default function EditUser(props) {
                     {...register("first_name", { required: "El nombre es obligatorio" })}
                     className={`w-150 text-center px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.first_name ? 'border-red-500' : 'border-gray-300'}`}
                 />
+                {errors.first_name && <p className="text-red-500 text-xs mt-1">{errors.first_name.message}</p>}
                 <label htmlFor="last_name" className="block text-sm font-medium text-gray-700 mb-1 text-center">Apellidos</label>
                 <input
                     type="text"
@@ -41,6 +43,7 @@ export default function EditUser(props) {
                     {...register("last_name",{required: "El apellido es obligatorio"})}
                     className={`w-150 text-center px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.last_name ? 'border-red-500' : 'border-gray-300'}`}
                 />
+                {errors.last_name && <p className="text-red-500 text-xs mt-1">{errors.last_name.message}</p>}
                 <button
                     type="submit"
                     disabled={isLoading}

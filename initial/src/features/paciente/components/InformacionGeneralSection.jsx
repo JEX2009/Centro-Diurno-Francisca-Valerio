@@ -1,6 +1,7 @@
 export default function InformacionGeneralSection({ paciente, calcularEdad }) {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            {/* -------------------- COLUMNA 1: INFORMACIÓN GENERAL -------------------- */}
             <section>
                 <h3 className="text-lg font-semibold text-gray-900 border-b border-gray-300 pb-2 mb-4">
                     Información del Paciente
@@ -14,10 +15,13 @@ export default function InformacionGeneralSection({ paciente, calcularEdad }) {
                         <dt className="text-sm font-medium text-gray-500">Cédula</dt>
                         <dd className="text-gray-900">{paciente.cedula}</dd>
                     </div>
+                    
+                    {/* CAMPO DE EDAD YA EXISTENTE */}
                     <div>
                         <dt className="text-sm font-medium text-gray-500">Edad</dt>
                         <dd className="text-gray-900">{calcularEdad(paciente.fecha_nacimiento)}</dd>
                     </div>
+                    
                     {paciente.email && (
                         <div>
                             <dt className="text-sm font-medium text-gray-500">Email</dt>
@@ -36,6 +40,8 @@ export default function InformacionGeneralSection({ paciente, calcularEdad }) {
                     </div>
                 </dl>
             </section>
+            
+            {/* -------------------- COLUMNA 2: HISTORIAL MÉDICO -------------------- */}
             <section>
                 <h3 className="text-lg font-semibold text-gray-900 border-b border-gray-300 pb-2 mb-4">
                     Historial Médico
@@ -61,6 +67,8 @@ export default function InformacionGeneralSection({ paciente, calcularEdad }) {
                     </div>
                 </dl>
             </section>
+            
+            {/* -------------------- COLUMNA 3 & 4: INFORMACIÓN ADICIONAL -------------------- */}
             <section className="lg:col-span-2">
                 <h3 className="text-lg font-semibold text-gray-900 border-b border-gray-300 pb-2 mb-4">
                     Información Adicional

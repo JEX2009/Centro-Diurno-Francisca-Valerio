@@ -245,7 +245,7 @@ export default function CreatePacient({ CreatePaciente, closeModal }) {
                     <label htmlFor="direccion" className={labelClassName}>Dirección</label>
                     <textarea
                         id="direccion"
-                        {...register("direccion")}
+                        {...register("direccion", {required: "La dirección es obligatoria"})}
                         className={inputClassName("direccion")}
                     />
                 </div>
